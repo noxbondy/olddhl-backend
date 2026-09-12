@@ -43,22 +43,17 @@ public class SecurityConfig {
     }
 
     // Security filter chain
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+@Bean
+public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http
+        .cors(cors -> {})
+        .csrf(csrf -> csrf.disable());
 
-        http
-                .csrf(csrf -> csrf.disable())
-                .cors(cors -> {}) // enable CORS using the WebMvcConfigurer/CorsConfigurationSource bean below — do NOT disable it
-                .httpBasic(httpBasic -> httpBasic.disable())
-                .formLogin(formLogin -> formLogin.disable())
-                .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll()
-                );
+    // your existing security configuration here
 
-        return http.build();
-    }
-
-
+    return http.build();
+}
+    
     // Web MVC Configurer for React routing + CORS
     @Bean
     public WebMvcConfigurer webMvcConfigurer() {
